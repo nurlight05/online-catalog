@@ -3,7 +3,7 @@ from django.shortcuts import render
 from .models import Employer
 
 def main(request):
-    employee = Employer.objects.all()
+    employee = Employer.objects.all()[:500]
     context = {
         'employee': employee
     }

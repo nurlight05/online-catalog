@@ -23,7 +23,7 @@ class Employer(models.Model):
         default=DEVELOPER,
     )
     hired = models.DateField(default=timezone.now)
-    salary = models.DecimalField(max_digits=8, decimal_places=2)
+    salary = models.DecimalField(max_digits=10, decimal_places=2)
     supervisor = models.ForeignKey('self', null=True, related_name='employees', on_delete=models.SET_NULL)
     
     def __str__(self):

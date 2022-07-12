@@ -1,0 +1,12 @@
+[
+  {
+    "model": "employee.employer",
+    "pk": 1,
+    "fields": {
+      "name": "Munoz Whitley",
+      "position": "CEO",
+      "salary": 1028016.00,
+      "supervisor": null
+    }
+  }
+]

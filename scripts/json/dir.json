@@ -1,0 +1,102 @@
+[
+  {
+    "model": "employee.employer",
+    "pk": 2,
+    "fields": {
+      "name": "Francis Martinez",
+      "position": "DIR",
+      "salary": 528717,
+      "supervisor": 1
+    }
+  },
+  {
+    "model": "employee.employer",
+    "pk": 3,
+    "fields": {
+      "name": "Snow Jennings",
+      "position": "DIR",
+      "salary": 629122,
+      "supervisor": 1
+    }
+  },
+  {
+    "model": "employee.employer",
+    "pk": 4,
+    "fields": {
+      "name": "Dora Mckay",
+      "position": "DIR",
+      "salary": 678220,
+      "supervisor": 1
+    }
+  },
+  {
+    "model": "employee.employer",
+    "pk": 5,
+    "fields": {
+      "name": "Isabella Zimmerman",
+      "position": "DIR",
+      "salary": 645079,
+      "supervisor": 1
+    }
+  },
+  {
+    "model": "employee.employer",
+    "pk": 6,
+    "fields": {
+      "name": "Roslyn Mayo",
+      "position": "DIR",
+      "salary": 885528,
+      "supervisor": 1
+    }
+  },
+  {
+    "model": "employee.employer",
+    "pk": 7,
+    "fields": {
+      "name": "Lewis Henson",
+      "position": "DIR",
+      "salary": 875287,
+      "supervisor": 1
+    }
+  },
+  {
+    "model": "employee.employer",
+    "pk": 8,
+    "fields": {
+      "name": "Alberta Church",
+      "position": "DIR",
+      "salary": 680475,
+      "supervisor": 1
+    }
+  },
+  {
+    "model": "employee.employer",
+    "pk": 9,
+    "fields": {
+      "name": "Tommie Preston",
+      "position": "DIR",
+      "salary": 797179,
+      "supervisor": 1
+    }
+  },
+  {
+    "model": "employee.employer",
+    "pk": 10,
+    "fields": {
+      "name": "Harmon Santana",
+      "position": "DIR",
+      "salary": 953820,
+      "supervisor": 1
+    }
+  },
+  {
+    "model": "employee.employer",
+    "pk": 11,
+    "fields": {
+      "name": "Sonya Cross",
+      "position": "DIR",
+      "salary": 703183,
+      "supervisor": 1
+    }
+  }
+]
