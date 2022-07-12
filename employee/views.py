@@ -1,6 +1,7 @@
 from django.views.generic import DetailView, ListView
 from django.shortcuts import get_object_or_404, redirect, render
 from django.db.models import Q
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout, login, authenticate
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
@@ -68,7 +69,8 @@ class IndexListView(ListView):
     paginate_by = 100
     
     def get_queryset(self):
-        query = self.request.GET.get('q')
+        query = self.request.GET.get('q') if self.request.user.is_authenticated else None
+        sort = self.request.GET.get('sort') if self.request.user.is_authenticated else None
         if query:
             object_list = self.model.objects.filter(Q(name__icontains=query) | 
                                                     Q(position__icontains=query) | 
@@ -77,7 +79,46 @@ class IndexListView(ListView):
                                                     Q(supervisor__name__icontains=query))
         else:
             object_list = self.model.objects.all()
+        
+        if sort == 'name asc':
+            object_list = object_list.order_by('name')
+        elif sort == 'name desc':
+            object_list = object_list.order_by('-name')
+        elif sort == 'position asc':
+            object_list = object_list.order_by('position')
+        elif sort == 'position desc':
+            object_list = object_list.order_by('-position')
+        elif sort == 'hired desc':
+            object_list = object_list.order_by('-hired')
+        elif sort == 'hired asc':
+            object_list = object_list.order_by('hired')
+        elif sort == 'salary desc':
+            object_list = object_list.order_by('-salary')
+        elif sort == 'salary asc':
+            object_list = object_list.order_by('salary')
+        elif sort == 'supervisor asc':
+            object_list = object_list.order_by('supervisor__name')
+        else:
+            object_list = object_list.order_by('-supervisor__name')
+        
         return object_list
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        sortby = [
+            {'attr': 'name asc', 'value': 'Name (asc)'},
+            {'attr': 'name desc', 'value': 'Name (desc)'},
+            {'attr': 'position asc', 'value': 'Position (asc)'},
+            {'attr': 'position desc', 'value': 'Position (desc)'},
+            {'attr': 'hired desc', 'value': 'Hired (newer)'},
+            {'attr': 'hired asc', 'value': 'Hired (older)'},
+            {'attr': 'salary desc', 'value': 'Salary (more)'},
+            {'attr': 'salary asc', 'value': 'Salary (less)'},
+            {'attr': 'supervisor asc', 'value': 'Supervisor (asc)'},
+            {'attr': 'supervisor desc', 'value': 'Supervisor (desc)'},
+        ]
+        context['sortby'] = sortby
+        return context
 
 class EmployerViewSet(viewsets.ModelViewSet):
     queryset = Employer.objects.all()
