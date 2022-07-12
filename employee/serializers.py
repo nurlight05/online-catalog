@@ -1,3 +1,4 @@
+from dataclasses import fields
 from rest_framework import serializers
 from rest_framework_recursive.fields import RecursiveField
 
@@ -25,6 +26,11 @@ class EmployerSerializer(serializers.ModelSerializer):
             return EmployerSerializer(obj.supervisor).data
         else:
             return None
+        
+class EmployerToJsonSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Employer
+        fields = ('name', 'position', 'hired', 'salary', 'supervisor')
        
 # Serialize 1 level employees 
 # class EmployeeSerializer(serializers.ModelSerializer):

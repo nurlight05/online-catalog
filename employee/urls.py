@@ -10,8 +10,9 @@ urlpatterns = [
     path('login/', views.loginUser, name='login'),
     path('register/', views.registerUser, name='register'),
     path('logout/', views.logoutUser, name='logout'),
+    path('download-json/', views.downloadJson, name='download-json'),
     path('employee/<int:pk>/', views.EmployeeDetailView.as_view(), name='employee-detail'),
     path('employee/<int:pk>/employees/', views.EmployeesListView.as_view(), name='employees-list'),
-    path('employees/', include(router.urls)),
+    path('api/', include(router.urls)),
 ]
 

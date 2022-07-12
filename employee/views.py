@@ -6,9 +6,11 @@ from django.contrib.auth import logout, login, authenticate
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
+from django.http import FileResponse, HttpResponse, JsonResponse
 from rest_framework import viewsets
+import json
 
-from .serializers import EmployerSerializer
+from .serializers import EmployerSerializer, EmployerToJsonSerializer
 from .models import Employer
 
 def loginUser(request):
@@ -62,6 +64,13 @@ def registerUser(request):
 def logoutUser(request):
     logout(request)
     return redirect('index-list')
+
+def downloadJson(request):
+    serializer = EmployerToJsonSerializer(Employer.objects.all(), many=True)
+    with open('data.json', 'w') as jsonfile:
+        json.dump(serializer.data, jsonfile, indent=4)
+    response = FileResponse(open('data.json', 'rb'), as_attachment=True, filename='employees.json')
+    return response
 
 class IndexListView(ListView):
     template_name = 'employee/index.html'
