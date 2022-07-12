@@ -16,6 +16,7 @@
         <th>No</th>
         <th>Name</th>
         <th>Position</th>
+        <th>Hired</th>
         <th>Salary</th>
         {% comment %} <th>Supervisor</th> {% endcomment %}
         <th></th>
@@ -25,6 +26,7 @@
             <td>{{ forloop.counter }}</td>
             <td>{{ employee.name }}</td>
             <td>{{ employee.get_position }}</td>
+            <td>{{ employee.hired }}</td>
             <td>{{ employee.salary }}</td>
             {% comment %} <td>{{ employee.supervisor }}</td> {% endcomment %}
             <td>
