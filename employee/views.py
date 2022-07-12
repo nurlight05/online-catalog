@@ -1,5 +1,6 @@
 from django.views.generic import DetailView, ListView
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404
+from django.db.models import Q
 from rest_framework import viewsets
 
 from .serializers import EmployerSerializer
@@ -9,6 +10,18 @@ class IndexListView(ListView):
     template_name = 'employee/index.html'
     model = Employer
     paginate_by = 100
+    
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+        if query:
+            object_list = self.model.objects.filter(Q(name__icontains=query) | 
+                                                    Q(position__icontains=query) | 
+                                                    Q(hired__contains=query) | 
+                                                    Q(salary__contains=query) |
+                                                    Q(supervisor__name__icontains=query))
+        else:
+            object_list = self.model.objects.all()
+        return object_list
 
 class EmployerViewSet(viewsets.ModelViewSet):
     queryset = Employer.objects.all()

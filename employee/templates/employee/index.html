@@ -6,10 +6,10 @@
         border: 1px solid black;
         padding: 2px 5px;
     }
-    form, input {
+    .form-pagination, .input-page-number {
         display: inline-block;
     }
-    input {
+    .input-page-number {
         width: 40px;
         text-align: center;
     }
@@ -17,8 +17,8 @@
 
 {% include 'employee/breadcrumb.html' %}
 
-<form>
-    <input type="text" name="q" placeholder="Search..." />
+<form method="GET" action="">
+    <input type="text" name="q" value="{{ request.GET.q }}" placeholder="Search..." />
 </form>
 
 <table>
@@ -50,21 +50,32 @@
 <div class="pagination">
     <span class="step-links">
         {% if page_obj.has_previous %}
-            <a href="?page=1">&laquo; First</a>
-            <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+            {% if request.GET.q %}
+                <a href="?q={{ request.GET.q }}&page=1">&laquo; First</a>
+                <a href="?q={{ request.GET.q }}&page={{ page_obj.previous_page_number }}">Previous</a>
+            {% else %}
+                <a href="?page=1">&laquo; First</a>
+                <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+            {% endif %}
         {% endif %}
 
         <span class="current">
             Page
-            <form method="GET" action="">
-                <input type="text" name="page" value="{{ page_obj.number }}" />
+            <form method="GET" action="" class="form-pagination">
+                <input type="text" name="page" class="input-page-number" value="{{ page_obj.number }}" />
+                <input type="hidden" name="q" value="{{ request.GET.q }}" />
             </form> 
             of {{ page_obj.paginator.num_pages }}.
         </span>
 
         {% if page_obj.has_next %}
-            <a href="?page={{ page_obj.next_page_number }}">Next</a>
-            <a href="?page={{ page_obj.paginator.num_pages }}">Last &raquo;</a>
+            {% if request.GET.q %}
+                <a href="?q={{ request.GET.q }}&page={{ page_obj.next_page_number }}">Next</a>
+                <a href="?q={{ request.GET.q }}&page={{ page_obj.paginator.num_pages }}">Last &raquo;</a>
+            {% else %}
+                <a href="?page={{ page_obj.next_page_number }}">Next</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">Last &raquo;</a>
+            {% endif %}
         {% endif %}
     </span>
 </div>

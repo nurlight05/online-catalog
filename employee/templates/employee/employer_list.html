@@ -10,7 +10,7 @@
 
 {% include 'employee/breadcrumb.html' %}
 
-{% comment %} <h3>List of employees of: <a href="{% url 'employee-detail' supervisor.id %}">{{ supervisor.name }} ({{ supervisor.get_position }})</a></h3> {% endcomment %}
+<h3>List of employees of: <a href="{% url 'employee-detail' supervisor.id %}">{{ supervisor.name }} ({{ supervisor.get_position }})</a></h3>
 <table>
     <tr>
         <th>No</th>
