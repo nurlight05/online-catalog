@@ -1,5 +1,70 @@
-<ol>
-    {% for employer in employee %}
-        <li>{{ employer }}</li>
+<style>
+    table {
+        border-collapse: collapse;
+    }
+    th, td {
+        border: 1px solid black;
+        padding: 2px 5px;
+    }
+    form, input {
+        display: inline-block;
+    }
+    input {
+        width: 40px;
+        text-align: center;
+    }
+</style>
+
+{% include 'employee/breadcrumb.html' %}
+
+<form>
+    <input type="text" name="q" placeholder="Search..." />
+</form>
+
+<table>
+    <tr>
+      <th>No</th>
+      <th>Name</th>
+      <th>Position</th>
+      <th>Hired</th>
+      <th>Salary</th>
+      <th>Supervisor</th>
+      <th></th>
+    </tr>
+    {% for employee in page_obj.object_list %}
+        <tr>
+            <td>{{ forloop.counter0|add:page_obj.start_index }}</td>
+            <td>{{ employee.name }}</td>
+            <td>{{ employee.get_position }}</td>
+            <td>{{ employee.hired }}</td>
+            <td>{{ employee.salary }}</td>
+            <td>{{ employee.supervisor }}</td>
+            <td>
+                <a href="{% url 'employee-detail' employee.id %}">Info</a>
+            </td>
+        </tr> 
     {% endfor %}
-</ol>
+</table>
+
+
+<div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?page=1">&laquo; First</a>
+            <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page
+            <form method="GET" action="">
+                <input type="text" name="page" value="{{ page_obj.number }}" />
+            </form> 
+            of {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">Next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">Last &raquo;</a>
+        {% endif %}
+    </span>
+</div>

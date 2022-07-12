@@ -1,0 +1,13 @@
+{% if breadcrumb %}
+    <a href="{% url 'index-list' %}">Home</a> >
+{% else %}
+    <span>Home</span>
+{% endif %}
+
+{% for item in breadcrumb %}
+    {% if item == employer or item == supervisor %}
+        <span>{{ item.name }}</span>
+    {% else %}
+        <a href="{% url 'employee-detail' item.id %}">{{ item.name }}</a> >
+    {% endif %}
+{% endfor %}

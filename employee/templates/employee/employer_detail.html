@@ -1,0 +1,9 @@
+{% include 'employee/breadcrumb.html' %}
+
+<p>Name: {{ employer.name }}</p>
+<p>Position: {{ employer.get_position }}</p>
+<p>Salary: {{ employer.salary }}</p>
+<p>Supervisor: {{ employer.supervisor }}</p>
+{% if employer.is_supervisor %}
+    <a href="{% url 'employees-list' employer.id %}">List of employees</a>
+{% endif %}
