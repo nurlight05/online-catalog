@@ -1,0 +1,11 @@
+
+
+.form-pagination, .input-page-number {
+    display: inline-block;
+}
+
+.input-page-number {
+    width: 40px;
+    text-align: center;
+}
+

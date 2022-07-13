@@ -1,13 +1,18 @@
-{% if breadcrumb %}
-    <a href="{% url 'index-list' %}">Home</a> >
-{% else %}
-    <span>Home</span>
-{% endif %}
-
-{% for item in breadcrumb %}
-    {% if item == employer or item == supervisor %}
-        <span>{{ item.name }}</span>
-    {% else %}
-        <a href="{% url 'employee-detail' item.id %}">{{ item.name }}</a> >
-    {% endif %}
-{% endfor %}
+<nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        {% if breadcrumb %}
+            <li class="breadcrumb-item"><a href="{% url 'index-list' %}">Home</a></li>
+        {% else %}
+            <li class="breadcrumb-item active">Home</li>
+        {% endif %}
+        {% for item in breadcrumb %}
+            {% if item == employer or item == supervisor %}
+                <li class="breadcrumb-item active" aria-current="page">{{ item.name }}</li>
+            {% else %}
+                <li class="breadcrumb-item" aria-current="page">
+                    <a href="{% url 'employee-detail' item.id %}">{{ item.name }}</a>
+                </li>
+            {% endif %}
+        {% endfor %}
+    </ol>
+</nav>

@@ -1,40 +1,42 @@
-<style>
-    table {
-        border-collapse: collapse;
-    }
-    th, td {
-        border: 1px solid black;
-        padding: 2px 5px;
-    }
-</style>
+{% extends 'main.html' %}
 
 {% include 'employee/breadcrumb.html' %}
 
-<h3>List of employees of: <a href="{% url 'employee-detail' supervisor.id %}">{{ supervisor.name }} ({{ supervisor.get_position }})</a></h3>
-<table>
-    <tr>
-        <th>No</th>
-        <th>Name</th>
-        <th>Position</th>
-        <th>Hired</th>
-        <th>Salary</th>
-        {% comment %} <th>Supervisor</th> {% endcomment %}
-        <th></th>
-    </tr>
-    {% for employee in object_list %}
-        <tr>
-            <td>{{ forloop.counter }}</td>
-            <td>{{ employee.name }}</td>
-            <td>{{ employee.get_position }}</td>
-            <td>{{ employee.hired }}</td>
-            <td>{{ employee.salary }}</td>
-            {% comment %} <td>{{ employee.supervisor }}</td> {% endcomment %}
-            <td>
-                {% if employee.is_supervisor %}
-                    <a href="{% url 'employees-list' employee.id %}">List of employees</a>
-                {% endif %}
-                <a href="{% url 'employee-detail' employee.id %}">Info</a>
-            </td>
-        </tr>
-    {% endfor %}
-</table>
+{% block content %}
+<div class="container">
+    <h3>List of employees of: <a href="{% url 'employee-detail' supervisor.id %}">{{ supervisor.name }} ({{ supervisor.get_position }})</a></h3>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">No</th>
+                <th scope="col">Name</th>
+                <th scope="col">Position</th>
+                <th scope="col">Hired</th>
+                <th scope="col">Salary</th>
+                {% comment %} <th scope="col">Supervisor</th> {% endcomment %}
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for employee in object_list %}
+                <tr>
+                    <td scope="row">{{ forloop.counter }}</td>
+                    <td>{{ employee.name }}</td>
+                    <td>{{ employee.get_position }}</td>
+                    <td>{{ employee.hired }}</td>
+                    <td>{{ employee.salary }}</td>
+                    {% comment %} <td>{{ employee.supervisor }}</td> {% endcomment %}
+                    <td>
+                        {% if employee.is_supervisor %}
+                            <a href="{% url 'employees-list' employee.id %}" type="button" class="btn btn-primary">List of employees</a>
+                        {% endif %}
+                        <a href="{% url 'employee-detail' employee.id %}" type="button" class="btn btn-primary">Info</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock content %}

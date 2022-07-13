@@ -1,31 +1,82 @@
-{% if messages %}
-    <ul class="messages">
-        {% for message in messages %} 
-            <li>{{ message }}</li>
-        {% endfor %}
-    </ul>
-{% endif %}
+{% extends 'main.html' %}
+
+{% block content %}
+
+<section class="vh-100" style="background-color: #508bfc;">
+    <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            {% if form.errors %}
+                {% for field in form %}
+                    {% for error in field.errors %} 
+                        <div class="alert alert-danger">
+                            {{ error|escape }}
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+            {% endif %}
+            <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+                <div class="card shadow-2-strong" style="border-radius: 1rem;">
+                    <div class="card-body p-5 text-center">
+
 {% if page == 'login' %}
-        <div>
-            <form method="POST" action="">
-                {% csrf_token %}
-                <label>Username:</label>
-                <input type="text" name="username" placeholder="Enter username..." />
-                <label>Password:</label>
-                <input type="password" name="password" placeholder="Enter password..." />
-                <input type="submit" value="Login" />
-                <p>Haven't signed up yet?</p>
-                <a href="{% url 'register' %}">Register</a>
-            </form>
+    
+    <form method="POST" action="">
+        {% csrf_token %}
+        <h3 class="mb-5">Login</h3>
+        
+        <div class="form-outline mb-4">
+            <input type="text" name="username" id="typeEmailX-2" class="form-control form-control-lg" />
+            <label class="form-label" for="typeEmailX-2">Username</label>
         </div>
-    {% else %}
-        <div>
-            <form method="POST" action="">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <input type="submit" value="Register" />
-                <p>Already signed up?</p>
-                <a href="{% url 'login' %}">Login</a>
-            </form>
+        
+        <div class="form-outline mb-4">
+            <input type="password" name="password" id="typePasswordX-2" class="form-control form-control-lg" />
+            <label class="form-label" for="typePasswordX-2">Password</label>
         </div>
-    {% endif %}
+        
+        <div class="form-check d-flex justify-content-start mb-4">
+            <span>Haven't an account?</span>
+            <a href="{% url 'register' %}">Sign-up</a>
+        </div>
+        
+        <button class="btn btn-primary btn-lg btn-block" type="submit">Login</button>
+    </form>
+                        
+{% else %}
+    <form method="POST" action="">
+        {% csrf_token %}
+        <h3 class="mb-5">Sign up</h3>
+        
+        <div class="form-outline mb-4">
+            <input type="text" name="username" id="id_username" class="form-control form-control-lg" />
+            <label class="form-label" for="id_username">Username</label>
+        </div>
+        
+        <div class="form-outline mb-4">
+            <input type="password" name="password1" id="id_password1" class="form-control form-control-lg" />
+            <label class="form-label" for="id_password1">Password</label>
+        </div>
+        
+        <div class="form-outline mb-4">
+            <input type="password" name="password2" id="id_password2" class="form-control form-control-lg" />
+            <label class="form-label" for="id_password2">Password confirmation</label>
+        </div>
+        
+        <div class="form-check d-flex justify-content-start mb-4">
+            <span>Already have an account?</span>
+            <a href="{% url 'login' %}">Login</a>
+        </div>
+        
+        <button class="btn btn-primary btn-lg btn-block" type="submit">Sign up</button>
+    </form>
+{% endif %}
+
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+{% endblock content %}
+

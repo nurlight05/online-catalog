@@ -1,84 +1,80 @@
-<style>
-    table {
-        border-collapse: collapse;
-    }
-    th, td {
-        border: 1px solid black;
-        padding: 2px 5px;
-    }
-    .form-pagination, .input-page-number {
-        display: inline-block;
-    }
-    .input-page-number {
-        width: 40px;
-        text-align: center;
-    }
-</style>
-
-{% include 'navbar.html' %}
+{% extends 'main.html' %}
 
 {% include 'employee/breadcrumb.html' %}
 
-{% if request.user.is_authenticated %}
-    <form method="GET" action="">
-        <input type="text" name="q" value="{{ request.GET.q }}" placeholder="Search..." />
-        <label for="sort">Sort by</label>
-        <select id="sort" name="sort">
-            {% for item in sortby %}
-                <option value="{{ item.attr }}" {% if request.GET.sort == item.attr %} selected {% endif %}>{{ item.value }}</option>
-            {% endfor %}
-        </select>
-        <input type="submit" value="Submit" />
-    </form>
-    <a href="{% url 'download-json' %}">Download as JSON</a>
-{% endif %}
+{% block content %}
 
-<table>
-    <tr>
-      <th>No</th>
-      <th>Name</th>
-      <th>Position</th>
-      <th>Hired</th>
-      <th>Salary</th>
-      <th>Supervisor</th>
-      <th></th>
-    </tr>
-    {% for employee in page_obj.object_list %}
-        <tr>
-            <td>{{ forloop.counter0|add:page_obj.start_index }}</td>
-            <td>{{ employee.name }}</td>
-            <td>{{ employee.get_position }}</td>
-            <td>{{ employee.hired }}</td>
-            <td>{{ employee.salary }}</td>
-            <td>{{ employee.supervisor }}</td>
-            <td>
-                <a href="{% url 'employee-detail' employee.id %}">Info</a>
-            </td>
-        </tr> 
-    {% endfor %}
-</table>
+    <div class="container">
 
-
-<div class="pagination">
-    <span class="step-links">
-        {% if page_obj.has_previous %}
-            <a href="?q={{ request.GET.q }}&sort={{ request.GET.sort }}&page=1">&laquo; First</a>
-            <a href="?q={{ request.GET.q }}&sort={{ request.GET.sort }}&page={{ page_obj.previous_page_number }}">Previous</a>
+        {% if request.user.is_authenticated %}
+            <form method="GET" action="">
+                <input type="text" name="q" value="{{ request.GET.q }}" placeholder="Search..." />
+                <label for="sort">Sort by</label>
+                <select id="sort" name="sort">
+                    {% for item in sortby %}
+                    <option value="{{ item.attr }}" {% if request.GET.sort == item.attr %} selected {% endif %}>{{ item.value }}</option>
+                    {% endfor %}
+                </select>
+                <input type="submit" value="Submit" />
+            </form>
+        <a href="{% url 'download-json' %}">Download as JSON</a>
         {% endif %}
 
-        <span class="current">
-            Page
-            <form method="GET" action="" class="form-pagination">
-                <input type="text" name="page" class="input-page-number" value="{{ page_obj.number }}" />
-                <input type="hidden" name="q" value="{{ request.GET.q }}" />
-                <input type="hidden" name="sort" value="{{ request.GET.sort }}" />
-            </form> 
-            of {{ page_obj.paginator.num_pages }}.
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">No</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Position</th>
+                    <th scope="col">Hired</th>
+                    <th scope="col">Salary</th>
+                    <th scope="col">Supervisor</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for employee in page_obj.object_list %}
+                    <tr>
+                        <td scope="row">{{ forloop.counter0|add:page_obj.start_index }}</td>
+                        <td>{{ employee.name }}</td>
+                        <td>{{ employee.get_position }}</td>
+                        <td>{{ employee.hired }}</td>
+                        <td>{{ employee.salary }}</td>
+                        <td>{{ employee.supervisor }}</td>
+                        <td>
+                            <a href="{% url 'employee-detail' employee.id %}" type="button" class="btn btn-primary">Info</a>
+                        </td>
+                    </tr> 
+                {% endfor %}
+            </tbody>
+        </table>
+
+
+    
+
+    <div class="pagination mb-5">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?q={{ request.GET.q }}&sort={{ request.GET.sort }}&page=1">&laquo; First</a>
+                <a href="?q={{ request.GET.q }}&sort={{ request.GET.sort }}&page={{ page_obj.previous_page_number }}">Previous</a>
+            {% endif %}
+
+            <span class="current">
+                Page
+                <form method="GET" action="" class="form-pagination">
+                    <input type="text" name="page" class="input-page-number" value="{{ page_obj.number }}" />
+                    <input type="hidden" name="q" value="{{ request.GET.q }}" />
+                    <input type="hidden" name="sort" value="{{ request.GET.sort }}" />
+                </form> 
+                of {{ page_obj.paginator.num_pages }}.
+            </span>
+
+            {% if page_obj.has_next %}
+                <a href="?q={{ request.GET.q }}&sort={{ request.GET.sort }}&page={{ page_obj.next_page_number }}">Next</a>
+                <a href="?q={{ request.GET.q }}&sort={{ request.GET.sort }}&page={{ page_obj.paginator.num_pages }}">Last &raquo;</a>
+            {% endif %}
         </span>
-
-        {% if page_obj.has_next %}
-            <a href="?q={{ request.GET.q }}&sort={{ request.GET.sort }}&page={{ page_obj.next_page_number }}">Next</a>
-            <a href="?q={{ request.GET.q }}&sort={{ request.GET.sort }}&page={{ page_obj.paginator.num_pages }}">Last &raquo;</a>
-        {% endif %}
-    </span>
+    </div>
 </div>
+
+{% endblock content %}

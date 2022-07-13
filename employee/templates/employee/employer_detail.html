@@ -1,9 +1,15 @@
+{% extends 'main.html' %}
+
 {% include 'employee/breadcrumb.html' %}
 
-<p>Name: {{ employer.name }}</p>
-<p>Position: {{ employer.get_position }}</p>
-<p>Salary: {{ employer.salary }}</p>
-<p>Supervisor: {{ employer.supervisor }}</p>
-{% if employer.is_supervisor %}
-    <a href="{% url 'employees-list' employer.id %}">List of employees</a>
-{% endif %}
+{% block content %}
+    <div class="container">
+        <p><strong>Name:</strong> {{ employer.name }}</p>
+        <p><strong>Position:</strong> {{ employer.get_position }}</p>
+        <p><strong>Salary:</strong> {{ employer.salary }}</p>
+        <p><strong>Supervisor:</strong> {{ employer.supervisor }}</p>
+        {% if employer.is_supervisor %}
+            <a href="{% url 'employees-list' employer.id %}">List of employees</a>
+        {% endif %}
+    </div>
+{% endblock content %}

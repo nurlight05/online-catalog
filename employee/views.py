@@ -43,7 +43,7 @@ def loginUser(request):
 
 def registerUser(request):
     form = UserCreationForm()
-    
+
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
@@ -53,13 +53,9 @@ def registerUser(request):
             login(request, user)
             return redirect('index-list')
         else:
-            messages.error(request, 'An error occured during registration!')
-    
-    context = {
-        'form': form
-    }
-    
-    return render(request, 'employee/login_register.html', context)
+            messages.error(request, 'An error occurred during registration')
+
+    return render(request, 'employee/login_register.html', {'form': form})
 
 def logoutUser(request):
     logout(request)
@@ -107,7 +103,7 @@ class IndexListView(ListView):
             object_list = object_list.order_by('salary')
         elif sort == 'supervisor asc':
             object_list = object_list.order_by('supervisor__name')
-        else:
+        elif sort == 'supervisor desc':
             object_list = object_list.order_by('-supervisor__name')
         
         return object_list
